@@ -2,11 +2,13 @@
 
 ###使用方式：
 
+```
 <dependency>
 			 <groupId>com.kuyun</groupId>
 			 <artifactId>sqlLog</artifactId>
        <version>1.0</version>
 </dependency>
+```
 
 ###logback配置(如果不配置，则默认会输出到STDOUT)：
 
