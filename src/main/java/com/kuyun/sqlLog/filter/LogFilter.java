@@ -14,13 +14,12 @@ import org.slf4j.LoggerFactory;
  * https://github.com/alibaba/druid/issues/1197
  * Created by xuwuqiang on 2017/5/27.
  */
+
 @AutoService(value = Filter.class)
 @AutoLoad
 public class LogFilter extends FilterEventAdapter {
 
-
     private Logger LOG = LoggerFactory.getLogger(LogFilter.class);
-
 
     @Override
     protected void statementExecuteAfter(StatementProxy statement, String sql, boolean result) {
@@ -38,6 +37,5 @@ public class LogFilter extends FilterEventAdapter {
         LOG.info(SqlJoiner.printSql(sql, statement));
         super.statementExecuteUpdateAfter(statement, sql, updateCount);
     }
-
 
 }
