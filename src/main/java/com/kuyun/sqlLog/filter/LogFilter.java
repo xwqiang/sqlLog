@@ -6,6 +6,9 @@ import com.alibaba.druid.filter.FilterEventAdapter;
 import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
 import com.google.auto.service.AutoService;
+import com.kuyun.sqlLog.util.SqlJoiner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * https://github.com/alibaba/druid/issues/1197
@@ -15,27 +18,26 @@ import com.google.auto.service.AutoService;
 @AutoLoad
 public class LogFilter extends FilterEventAdapter {
 
+
+    private Logger LOG = LoggerFactory.getLogger(LogFilter.class);
+
+
     @Override
     protected void statementExecuteAfter(StatementProxy statement, String sql, boolean result) {
-        System.out.println(printSql(sql, statement));
+        LOG.info(SqlJoiner.printSql(sql, statement));
         super.statementExecuteAfter(statement, sql, result);
     }
 
     @Override
     protected void statementExecuteQueryAfter(StatementProxy statement, String sql, ResultSetProxy resultSet) {
-        System.out.println(printSql(sql, statement));
+        LOG.debug(SqlJoiner.printSql(sql, statement));
         super.statementExecuteQueryAfter(statement, sql, resultSet);
     }
 
     protected void statementExecuteUpdateAfter(StatementProxy statement, String sql, int updateCount) {
-        System.out.println(printSql(sql, statement));
+        LOG.info(SqlJoiner.printSql(sql, statement));
         super.statementExecuteUpdateAfter(statement, sql, updateCount);
     }
 
-    private String printSql(String sql, StatementProxy statementProxy) {
-        for (int index = 0; index < statementProxy.getParametersSize(); index++) {
-            sql = sql.replaceFirst("\\?", statementProxy.getParameter(index).getValue().toString());
-        }
-        return sql;
-    }
+
 }
