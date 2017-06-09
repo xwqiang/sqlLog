@@ -13,18 +13,18 @@
 ### logback配置(如果不配置，则默认会输出到STDOUT)：
 
 ```
-<appendername="sqlInfo"class="ch.qos.logback.core.rolling.RollingFileAppender">
+<appender name="sqlInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <Encoding>UTF-8</Encoding>
-      <rollingPolicyclass="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${LOG_HOME}/sqlInfo.%d{yyyy-MM-dd}.log</FileNamePattern>
       </rollingPolicy>
-      <layoutclass="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyy-MM-ddHH:mm:ss.SSS}|%msg%n</pattern>
+      <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%msg%n</pattern>
       </layout>
 </appender>
 
-<loggername="com.kuyun.sqlLog"additivity="false"level="DEBUG">
-      <appender-refref="sqlInfo"/>
+<loggername="com.kuyun.sqlLog" additivity="false" level="DEBUG">
+      <appender-ref ref="sqlInfo" />
 </logger>
 ```
 
