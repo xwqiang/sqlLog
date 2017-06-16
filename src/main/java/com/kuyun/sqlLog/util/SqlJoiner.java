@@ -10,24 +10,35 @@ import org.joda.time.LocalDateTime;
 public class SqlJoiner {
 
     public static String printSql(String sql, StatementProxy statementProxy) {
-        for (int index = 0; index < statementProxy.getParametersSize(); index++) {
-            sql = sql.replaceFirst("\\?", quateIt(statementProxy.getParameter(index).getValue()));
+
+        String[] sqlArr = sql.split("[?]");
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        if (statementProxy.getParametersSize() > 0) {
+            for (i = 0; i < statementProxy.getParametersSize(); i++) {
+                sb.append(sqlArr[i]);
+                String obj = quateIt(statementProxy.getParameter(i).getValue());
+                sb.append(obj);
+            }
         }
-        return sql;
+        for (; i < sqlArr.length; i++) {
+            sb.append(sqlArr[i]);
+        }
+        return sb.toString();
     }
 
     private static String quateIt(Object object) {
         if (object == null) {
             return "NULL";
         }
-        if (needToQuate(object)) {
-            if (isDateTimeLike(object.getClass())) {
-                return "'" + LocalDateTime.fromDateFields((java.util.Date) object).toString("yyyy-MM-dd HH:mm:ss")
-                    + "'";
-            }
-            return "'" + object + "'";
+        if (!needToQuate(object)) {
+            return object.toString();
         }
-        return object.toString();
+        if (isDateTimeLike(object.getClass())) {
+            return "'" + LocalDateTime.fromDateFields((java.util.Date) object).toString("yyyy-MM-dd HH:mm:ss")
+                + "'";
+        }
+        return "'" + object + "'";
     }
 
     private static boolean needToQuate(Object object) {
