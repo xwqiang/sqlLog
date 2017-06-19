@@ -53,17 +53,6 @@ public class SqlJoiner {
         return true;
     }
 
-    /**
-     * java.lang.Boolean#TYPE
-     * java.lang.Character#TYPE
-     * java.lang.Byte#TYPE
-     * java.lang.Short#TYPE
-     * java.lang.Integer#TYPE
-     * java.lang.Long#TYPE
-     * java.lang.Float#TYPE
-     * java.lang.Double#TYPE
-     * java.lang.Void#TYPE
-     */
     private static Boolean isPrimitive(Class<?> klass) {
         if (klass == null) {
             throw new NullPointerException("kclass is NULL");
@@ -73,7 +62,9 @@ public class SqlJoiner {
             || klass == boolean.class
             || klass == Boolean.class
             || klass == byte.class
+            || klass == Byte.class
             || klass == short.class
+            || klass == Short.class
             || klass == long.class
             || klass == Long.class
             || klass == float.class
@@ -82,7 +73,7 @@ public class SqlJoiner {
             || klass == Double.class) {
             return true;
         }
-        return klass.isPrimitive();
+        return false;
     }
 
     private static boolean isDateTimeLike(Class<?> klass) {
